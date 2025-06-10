@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background: linear-gradient(to right, #ffe4f0, #fdd9ff);
+        font-family: "Segoe UI", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      table {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        background: white;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 20px;
+        font-size: 24px;
+        text-align: right;
+        border: none;
+        outline: none;
+        background: #fff0f6;
+        color: #c71585;
+        font-weight: bold;
+        box-shadow: inset 0 0 10px #fbb6ce;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 20px;
+        font-size: 20px;
+        background: linear-gradient(145deg, #ffb6c1, #ff69b4);
+        border: none;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-shadow: 1px 1px 2px #c71585;
+        box-shadow: 0 0 10px #ffb6c1, 0 0 20px #ff69b4;
+        border-radius: 10px;
+      }
+
+      button:hover {
+        background: linear-gradient(145deg, #ff69b4, #ff1493);
+        box-shadow: 0 0 15px #ff69b4, 0 0 25px #ff1493;
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 600px) {
+  body {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  table {
+    width: 90%;
+    max-width: 350px;
+  }
+
+  input[type="text"] {
+    font-size: 20px;
+    padding: 15px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 15px;
+    box-shadow: none;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <table border="1">
+      <tr>
+        <td colspan="4">
+          <input type="text" id="inputBox" value="0" />
+        </td>
+      </tr>
+
+      <tr>
+        <td><button onclick="appendToInput('7')">7</button></td>
+        <td><button onclick="appendToInput('8')">8</button></td>
+        <td><button onclick="appendToInput('9')">9</button></td>
+        <td><button onclick="setOperation('/')">/</button></td>
+      </tr>
+
+      <tr>
+        <td><button onclick="appendToInput('4')">4</button></td>
+        <td><button onclick="appendToInput('5')">5</button></td>
+        <td><button onclick="appendToInput('6')">6</button></td>
+        <td><button onclick="setOperation('*')">*</button></td>
+      </tr>
+
+      <tr>
+        <td><button onclick="appendToInput('1')">1</button></td>
+        <td><button onclick="appendToInput('2')">2</button></td>
+        <td><button onclick="appendToInput('3')">3</button></td>
+        <td><button onclick="setOperation('-')">-</button></td>
+      </tr>
+
+      <tr>
+        <td colspan="3"><button onclick="appendToInput('0')">0</button></td>
+        <td><button onclick="setOperation('+')">+</button></td>
+      </tr>
+
+      <tr>
+        <td><button onclick="appendToInput('.')">.</button></td>
+        <td colspan="2"><button onclick="calculate()">=</button></td>
+        <td colspan="2"><button onclick="clearInput()">C</button></td>
+        <td></td>
+      </tr>
+    </table>
+
+    <script>
+      let currentValue = '';
+      let previousValue = '';
+      let operation = null;
+      const inputBox = document.getElementById('inputBox');
+
+      function appendToInput(value) {
+        if (inputBox.value === '0' && value !== '.') {
+          inputBox.value = value;
+        } else {
+          inputBox.value += value;
+        }
+      }
+      // Function to handle operation setting
+      function setOperation(op) {
+        if (operation !== null) {
+          calculate();
+        }
+        previousValue = inputBox.value; // Stores the current value
+        operation = op; // Set the operation
+        inputBox.value = '0'; // Reset the input box for the next number
+      }
+
+      function calculate() {
+        const a = parseFloat(previousValue);
+        const b = parseFloat(inputBox.value);
+        let result;
+
+      if (isNaN(a) || isNaN(b)) {
+        return; // Ensure valid input
+      }
+
+      switch (operation) {
+        case '+':
+        result = a + b;
+        break;
+        case '-':
+        result = a - b;
+        break;
+        case '*':
+        result = a * b;
+        break;
+        case '/':
+        result = b !== 0 ? a / b : 'Error'; // Prevent division by zero
+        break;
+        default:
+        return;
+      }
+
+      inputBox.value = result;
+      previousValue = ''; // Reset values
+      operation = null;
+      }
+
+      function clearInput() {
+        inputBox.value = '0'; // Reset the input box
+        previousValue = ''; // Reset previous value
+        operation = null; // Reset operation
+      }
+      document.addEventListener('keydown', function(event) {
+        const key = event.key;
+
+        if (!isNaN(key) || ['+', '-', '*', '/', '.', 'Enter', 'Escape', '=', 'c', 'C'].includes(key)) {
+          event.preventDefault();
+
+        if (!isNaN(key) || key === '.') {
+          appendToInput(key); // Append number or dot
+
+        } else if (['+', '-', '*', '/'].includes(key)) {
+          setOperation(key);
+
+        } else if (key === 'Enter') {
+          calculate();
+
+        } else if (key === 'Escape') {
+          clearInput(); // Clear input
+        }
+      }
+      });
+    </script>
+  </body>
+</html>
