@@ -15,6 +15,12 @@
       </tr>
 
       <tr>
+        <td><button onclick="memorySave()">M+</button></td>
+        <td><button onclick="memoryRecall()">MR</button></td>
+        <td><button onclick="memoryClear()">MC</button></td>
+        <td><button onclick="clearInput()">C</button></td>
+      </tr>
+      <tr>
         <td><button onclick="appendToInput('7')">7</button></td>
         <td><button onclick="appendToInput('8')">8</button></td>
         <td><button onclick="appendToInput('9')">9</button></td>
@@ -36,15 +42,16 @@
       </tr>
 
       <tr>
-        <td colspan="3"><button onclick="appendToInput('0')">0</button></td>
+        <td><button onclick="appendToInput('0')">0</button></td>
+        <td><button onclick="appendToInput('.')">.</button></td>
+        <td><button onclick="percentage()">%</button></td>
         <td><button onclick="setOperation('+')">+</button></td>
       </tr>
 
       <tr>
-        <td><button onclick="appendToInput('.')">.</button></td>
-        <td colspan="2"><button onclick="calculate()">=</button></td>
-        <td colspan="2"><button onclick="clearInput()">C</button></td>
-        <td></td>
+  
+        <td colspan="3"><button onclick="calculate()">=</button></td>
+        <td><button onclick="backspace()">⌫</button></td>
       </tr>
     </table>
     <script src="script.js"></script>
