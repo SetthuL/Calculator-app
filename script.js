@@ -76,3 +76,23 @@ document.addEventListener("keydown", function (event) {
     }
   }
 });
+
+// Memory variables
+let memory = "";
+
+function backspace() {
+  if (inputBox.value.length > 0) {
+    inputBox.value = inputBox.value.slice(0, -1);
+  }
+  else {
+    inputBox.value = "0"; // Reset to 0 if only one character remains
+  }
+}
+
+// Percent function
+function percent() {
+  const current = parseFloat(inputBox.value);
+  if (!isNaN(current)) {
+    inputBox.value = current / 100;
+  }
+}
